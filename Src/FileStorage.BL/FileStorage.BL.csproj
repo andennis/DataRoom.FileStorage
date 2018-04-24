@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.Configuration\Common.Configuration.csproj" />
+    <ProjectReference Include="..\..\Common\Common.Utils\Common.Utils.csproj" />
+    <ProjectReference Include="..\FileStorage.Core\FileStorage.Core.csproj" />
+    <ProjectReference Include="..\FileStorage.Repository.Core\FileStorage.Repository.Core.csproj" />
+  </ItemGroup>
+
+</Project>
