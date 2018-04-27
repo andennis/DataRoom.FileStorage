@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Common.Configuration" Version="1.0.20180427.2" />
     <PackageReference Include="FluentAssertions" Version="5.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
@@ -27,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Common.Configuration\Common.Configuration.csproj" />
     <ProjectReference Include="..\..\Src\FileStorage.Core\FileStorage.Core.csproj" />
     <ProjectReference Include="..\..\Src\FileStorage.Repository.EF\FileStorage.Repository.EF.csproj" />
   </ItemGroup>

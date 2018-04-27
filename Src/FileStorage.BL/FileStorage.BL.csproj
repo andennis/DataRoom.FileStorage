@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Common.Configuration\Common.Configuration.csproj" />
-    <ProjectReference Include="..\..\Common\Common.Utils\Common.Utils.csproj" />
+    <PackageReference Include="Common.Configuration" Version="1.0.20180427.2" />
+    <PackageReference Include="Common.Utils" Version="1.0.20180427.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FileStorage.Core\FileStorage.Core.csproj" />
     <ProjectReference Include="..\FileStorage.Repository.Core\FileStorage.Repository.Core.csproj" />
   </ItemGroup>

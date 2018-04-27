@@ -5,12 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Common.Repository" Version="1.0.20180427.2" />
+    <PackageReference Include="Common.Unity" Version="1.0.20180427.2" />
     <PackageReference Include="Unity.Microsoft.DependencyInjection" Version="2.0.10" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Common.Repository\Common.Repository.csproj" />
-    <ProjectReference Include="..\..\Common\Common.Unity\Common.Unity.csproj" />
     <ProjectReference Include="..\FileStorage.Core\FileStorage.Core.csproj" />
   </ItemGroup>
 

@@ -5,12 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Common.Repository" Version="1.0.20180427.2" />
+    <PackageReference Include="Common.Repository.EF" Version="1.0.20180427.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Common.Repository.EF\Common.Repository.EF.csproj" />
-    <ProjectReference Include="..\..\Common\Common.Repository\Common.Repository.csproj" />
     <ProjectReference Include="..\FileStorage.Repository.Core\FileStorage.Repository.Core.csproj" />
   </ItemGroup>
 

@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileStorage.BL.Tests", "Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileStorage.Repository.EF.Tests", "Tests\FileStorage.Repository.EF.Tests\FileStorage.Repository.EF.Tests.csproj", "{4CB1A6B9-066F-4EC0-A60E-233155C79870}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileStorage.Repository.Core", "Src\FileStorage.Repository.Core\FileStorage.Repository.Core.csproj", "{DAB100E5-39AE-42D2-93C1-D46C1C4B7BF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{4CB1A6B9-066F-4EC0-A60E-233155C79870}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CB1A6B9-066F-4EC0-A60E-233155C79870}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CB1A6B9-066F-4EC0-A60E-233155C79870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAB100E5-39AE-42D2-93C1-D46C1C4B7BF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAB100E5-39AE-42D2-93C1-D46C1C4B7BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAB100E5-39AE-42D2-93C1-D46C1C4B7BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAB100E5-39AE-42D2-93C1-D46C1C4B7BF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{B9FE8B6F-44A9-4146-BEAF-F6CDDC269FBA} = {59A29629-D70C-4041-9AF8-12BB78C2794E}
 		{BAE1BFB8-4C04-4905-B339-C719BC18F597} = {5F0EA5B6-4A6E-4DD3-8FA4-B8CBF9AB34FD}
 		{4CB1A6B9-066F-4EC0-A60E-233155C79870} = {5F0EA5B6-4A6E-4DD3-8FA4-B8CBF9AB34FD}
+		{DAB100E5-39AE-42D2-93C1-D46C1C4B7BF1} = {59A29629-D70C-4041-9AF8-12BB78C2794E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AFF6A39F-2B41-4188-B550-E02CA9D0928D}
