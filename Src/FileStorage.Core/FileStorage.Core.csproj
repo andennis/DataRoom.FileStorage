@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Common.Configuration" Version="1.0.20180427.2" />
-    <PackageReference Include="Common.Repository" Version="1.0.20180427.2" />
+    <PackageReference Include="DA.Common.Configuration" Version="1.0.0" />
+    <PackageReference Include="DA.Common.Repository" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
