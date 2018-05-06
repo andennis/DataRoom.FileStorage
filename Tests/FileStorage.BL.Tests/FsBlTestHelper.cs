@@ -5,7 +5,7 @@ using FileStorage.Repository.EF;
 
 namespace FileStorage.BL.Tests
 {
-    public static class FsTestHelper
+    public static class FsBlTestHelper
     {
         public static void ClearFileStorage(IFileStorageConfig fsConfig)
         {

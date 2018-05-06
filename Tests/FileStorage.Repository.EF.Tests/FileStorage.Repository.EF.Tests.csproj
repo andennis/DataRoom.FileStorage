@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DA.Common.Configuration" Version="1.0.0.4" />
+    <PackageReference Include="DA.Common.Configuration" Version="1.0.0.5" />
     <PackageReference Include="FluentAssertions" Version="5.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />

@@ -195,7 +195,7 @@ namespace FileStorage.Repository.EF.Tests
 
         private IFileStorageUnitOfWork GetFileStorageUnitOfWork()
         {
-            return new FileStorageUnitOfWork(TestHelper.DbConfig);
+            return new FileStorageUnitOfWork(FsRepTestHelper.DbConfig);
         }
     }
 }
