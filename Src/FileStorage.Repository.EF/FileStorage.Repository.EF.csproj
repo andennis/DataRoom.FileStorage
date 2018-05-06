@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DA.Common.Repository" Version="1.0.0" />
-    <PackageReference Include="DA.Common.Repository.EF" Version="1.0.0" />
+    <PackageReference Include="DA.Common.Repository" Version="1.0.0.4" />
+    <PackageReference Include="DA.Common.Repository.EF" Version="1.0.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
   </ItemGroup>
 

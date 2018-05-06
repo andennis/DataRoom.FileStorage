@@ -5,13 +5,13 @@ namespace FileStorage.Repository.EF.Tests
 {
     public static class TestHelper
     {
-        private class TestDbConfig : AppConfigBase, IDbConfig
+        private class TestDbConfig : AppConfigBase
         {
             public TestDbConfig()
             :base("ConnectionStrings")
             {
             }
-            public string ConnectionString => GetValue<string>("FileStorageConnection");
+            //public string ConnectionString => GetValue<string>("FileStorageConnection");
         }
 
         public static IDbConfig DbConfig => new TestDbConfig();
