@@ -2,11 +2,9 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
-    <TargetDatabaseName>FileStorage</TargetDatabaseName>
+    <TargetDatabaseName>TST_FileStorage</TargetDatabaseName>
     <DeployScriptFileName>FileStorage.DB.SqlServer.sql</DeployScriptFileName>
-    <TargetConnectionString>Data Source=(localdb)\DataRoomLocalDb;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True</TargetConnectionString>
-    <BlockWhenDriftDetected>False</BlockWhenDriftDetected>
-    <RegisterDataTierApplication>True</RegisterDataTierApplication>
+    <TargetConnectionString>Data Source=(localdb)\DataRoomLocalDb;Integrated Security=True;MultipleActiveResultSets=False</TargetConnectionString>
     <ProfileVersionNumber>1</ProfileVersionNumber>
   </PropertyGroup>
 </Project>
