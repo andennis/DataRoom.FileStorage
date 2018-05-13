@@ -22,14 +22,17 @@ namespace FileStorage.WebService.Controllers
         [HttpPost]
         public long Upload(IFormFile file)
         {
+            if (file == null)
+                return null;
+
             Stream strm = file.OpenReadStream();
             return _fileStorageService.Put(strm, file.FileName);
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
+        public void Download(string token)
         {
-            return new string[] { "value1", "value2" };
+            
         }
 
 

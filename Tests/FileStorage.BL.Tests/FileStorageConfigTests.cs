@@ -13,6 +13,7 @@ namespace FileStorage.BL.Tests
             var fsConfig = new FileStorageConfig();
             Assert.AreEqual(3, fsConfig.StorageDeep);
             Assert.AreEqual(2, fsConfig.MaxItemsNumber);
+            Assert.AreEqual("1234567890asdfgh", fsConfig.SecurityKey);
             Assert.False(string.IsNullOrEmpty(fsConfig.StoragePath));
             Assert.False(string.IsNullOrEmpty(fsConfig.ConnectionString));
         }

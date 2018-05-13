@@ -14,7 +14,7 @@ namespace FileStorage.BL
         {
             get
             {
-                if (int.TryParse(GetValue<string>("StorageDeep"), out int n))
+                if (int.TryParse(GetValue<string>(nameof(StorageDeep)), out int n))
                     return n;
 
                 return -1;
@@ -24,12 +24,13 @@ namespace FileStorage.BL
         {
             get
             {
-                if (int.TryParse(GetValue<string>("MaxItemsNumber"), out int n))
+                if (int.TryParse(GetValue<string>(nameof(MaxItemsNumber)), out int n))
                     return n;
 
                 return -1;
             }
         }
-        public string StoragePath => GetValue<string>("StoragePath");
+        public string StoragePath => GetValue<string>(nameof(StoragePath));
+        public string SecurityKey => GetValue<string>(nameof(SecurityKey));
     }
 }

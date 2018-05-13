@@ -12,31 +12,32 @@ namespace FileStorage.Core
         /// <param name="fileOrDirPath"></param>
         /// <param name="move"></param>
         /// <returns>Storage item ID</returns>
-        long Put(string fileOrDirPath, bool move = false);
-        long Put(Stream fileStream, string fileName = null);
-        string GetStorageItemPath(long itemId);
-        StorageFileInfo GetFile(long itemId, bool fileStream = false);
+        string Put(string fileOrDirPath, bool move = false);
+        string Put(Stream fileStream, string fileName = null);
+        StorageFileInfo GetFile(string itemToken, bool fileStream = false);
+
+        string GetStorageItemPath(string itemToken);
 
         /// <summary>
         /// Create storage item as folder
         /// </summary>
         /// <param name="folderPath">The absolute path to the storage item (folder)</param>
         /// <returns>Storage item ID</returns>
-        long CreateStorageFolder(out string folderPath);
+        string CreateStorageFolder(out string folderPath);
 
-        void PutToStorageFolder(long itemId, string srcFileOrDirPath, bool move = false);
+        void PutToStorageFolder(string itemToken, string srcFileOrDirPath, bool move = false);
 
         /// <summary>
         /// Put file or directory content into specified directory of storage item(folder)
         /// </summary>
-        /// <param name="itemId">Storage item ID</param>
+        /// <param name="itemToken">Storage item ID</param>
         /// <param name="srcFileOrDirPath">File or directory path</param>
         /// <param name="dstDirPath">directory path in scope of storage item(folder)</param>
         /// <param name="move">Move files and directories if True or copy if False</param>
-        void PutToStorageFolder(long itemId, string srcFileOrDirPath, string dstDirPath, bool move = false);
-        void ClearStorageFolder(long itemId);
+        void PutToStorageFolder(string itemToken, string srcFileOrDirPath, string dstDirPath, bool move = false);
+        void ClearStorageFolder(string itemToken);
 
-        void DeleteStorageItem(long itemId);
+        void DeleteStorageItem(string itemToken);
         void PurgeDeletedItems();
     }
 }

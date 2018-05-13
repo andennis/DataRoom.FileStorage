@@ -8,5 +8,6 @@ namespace FileStorage.Core
         int StorageDeep { get; }
         int MaxItemsNumber { get; }
         string StoragePath { get; }
+        string SecurityKey { get; }
     }
 }

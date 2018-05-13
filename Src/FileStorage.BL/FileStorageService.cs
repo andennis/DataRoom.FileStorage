@@ -14,8 +14,10 @@ namespace FileStorage.BL
     public class FileStorageService : IFileStorageService
     {
         private const string RootFolderName = "FSRoot";
+        private const string SecurityVector = "jnY6!.?huDFz-wqV";
         private readonly IFileStorageConfig _config;
         private readonly IFileStorageUnitOfWork _fsUnitOfWork;
+        
 
         public FileStorageService(IFileStorageConfig config, IFileStorageUnitOfWork fsUnitOfWork)
         {
@@ -34,7 +36,7 @@ namespace FileStorage.BL
             }
         }
 
-        public long Put(string fileOrDirPath, bool move = false)
+        public string Put(string fileOrDirPath, bool move = false)
         {
             if (string.IsNullOrEmpty(fileOrDirPath))
                 throw new ArgumentNullException(nameof(fileOrDirPath));
@@ -53,9 +55,10 @@ namespace FileStorage.BL
                 newStorageItem = PutFile(fileOrDirPath, dstPath, move);
             }
 
-            return CreateStorageItem(parentFolder, newStorageItem);
+            long itemId = CreateStorageItem(parentFolder, newStorageItem);
+            return EncryptStorageItemId(itemId);
         }
-        public long Put(Stream fileStream, string fileName = null)
+        public string Put(Stream fileStream, string fileName = null)
         {
             if (fileStream == null)
                 throw new ArgumentNullException(nameof(fileStream));
@@ -89,56 +92,16 @@ namespace FileStorage.BL
                 Size = fileSize
             };
 
-            return CreateStorageItem(parentFolder, newStorageItem);
-        }
-        private StorageItem PutFile(string srcFilePath, string dstFilePath, bool moveFile = false)
-        {
-            //Copy\move file to specified location
-            if (moveFile)
-                MoveFile(srcFilePath, dstFilePath);
-            else
-                File.Copy(srcFilePath, dstFilePath);
-
-            return new StorageItem()
-                    {
-                        Name = Path.GetFileName(dstFilePath),
-                        Status = ItemStatus.Active,
-                        ItemType = StorageItemType.File,
-                        OriginalName = Path.GetFileName(srcFilePath),
-                        Size = new FileInfo(dstFilePath).Length
-                    };
-        }
-        private StorageItem PutFolder(string srcFolderPath, string dstFolderPath, bool moveFolder = false)
-        {
-            //Copy\move folder to specified location
-            if (moveFolder)
-                MoveDirectory(srcFolderPath, dstFolderPath);
-            else
-                FileHelper.DirectoryCopy(srcFolderPath, dstFolderPath, true, true);
-
-            return new StorageItem()
-                    {
-                        Name = Path.GetFileName(dstFolderPath),
-                        Status = ItemStatus.Active,
-                        ItemType = StorageItemType.Folder,
-                        //OriginalName = srcFileName,
-                        //Size = fileSize
-                    };
+            long itemId = CreateStorageItem(parentFolder, newStorageItem);
+            return EncryptStorageItemId(itemId);
         }
 
-        public string GetStorageItemPath(long itemId)
+        public StorageFileInfo GetFile(string itemToken, bool fileStream = false)
         {
-            string path = _fsUnitOfWork.FileStorageRepository.GetStorageItemPath(itemId);
-            //TODO throw exception if not found
-            if (path == null)
-                return null;
+            if (string.IsNullOrEmpty(itemToken))
+                throw new ArgumentNullException(nameof(itemToken));
 
-            path = GetPathWithoutRootFolder(path);
-            return Path.Combine(_config.StoragePath, path);
-        }
-
-        public StorageFileInfo GetFile(long itemId, bool fileStream = false)
-        {
+            long itemId = DecryptStorageItemId(itemToken);
             StorageItem si =  _fsUnitOfWork.FileStorageRepository.GetStorageItem(itemId);
             if (si == null)
                 return null;
@@ -159,7 +122,15 @@ namespace FileStorage.BL
             return sfi;
         }
 
-        public long CreateStorageFolder(out string folderPath)
+        public string GetStorageItemPath(string itemToken)
+        {
+            if (string.IsNullOrEmpty(itemToken))
+                throw new ArgumentNullException(nameof(itemToken));
+
+            long itemId = DecryptStorageItemId(itemToken);
+            return GetStorageItemPath(itemId);
+        }
+        public string CreateStorageFolder(out string folderPath)
         {
             //Get new file path
             folderPath = GetNewStorageItemPath(out FolderItem parentFolder);
@@ -176,15 +147,19 @@ namespace FileStorage.BL
                 //Size = fileSize
             };
 
-            return CreateStorageItem(parentFolder, newFileItem);
+            long itemId = CreateStorageItem(parentFolder, newFileItem);
+            return EncryptStorageItemId(itemId);
         }
+        public void PutToStorageFolder(string itemToken, string srcFileOrDirPath, bool move = false)
+        {
+            PutToStorageFolder(itemToken, srcFileOrDirPath, null, move);
+        }
+        public void PutToStorageFolder(string itemToken, string srcFileOrDirPath, string dstDirPath, bool move = false)
+        {
+            if (string.IsNullOrEmpty(itemToken))
+                throw new ArgumentNullException(nameof(itemToken));
 
-        public void PutToStorageFolder(long itemId, string srcFileOrDirPath, bool move = false)
-        {
-            PutToStorageFolder(itemId, srcFileOrDirPath, null, move);
-        }
-        public void PutToStorageFolder(long itemId, string srcFileOrDirPath, string dstDirPath, bool move = false)
-        {
+            long itemId = DecryptStorageItemId(itemToken);
             string dstStorageFolder = GetStorageItemPath(itemId);
             dstDirPath = Path.Combine(dstStorageFolder, dstDirPath ?? string.Empty);
             Directory.CreateDirectory(dstDirPath);
@@ -207,16 +182,25 @@ namespace FileStorage.BL
                     File.Copy(srcFileOrDirPath, dstDirPath);
             }
         }
-        public void ClearStorageFolder(long itemId)
+        public void ClearStorageFolder(string itemToken)
         {
+            if (string.IsNullOrEmpty(itemToken))
+                throw new ArgumentNullException(nameof(itemToken));
+
+            long itemId = DecryptStorageItemId(itemToken);
             string dstStorageFolder = GetStorageItemPath(itemId);
             Directory.Delete(dstStorageFolder, true);
             Directory.CreateDirectory(dstStorageFolder);
         }
+        
 
-        public void DeleteStorageItem(long itemId)
+        public void DeleteStorageItem(string itemToken)
         {
+            if (string.IsNullOrEmpty(itemToken))
+                throw new ArgumentNullException(nameof(itemToken));
+
             IRepository<StorageItem> siRep = _fsUnitOfWork.GetRepository<StorageItem>();
+            long itemId = DecryptStorageItemId(itemToken);
             StorageItem si = siRep.Find(itemId);
             if (si == null)
                 return;
@@ -228,6 +212,52 @@ namespace FileStorage.BL
         public void PurgeDeletedItems()
         {
             throw new NotImplementedException();
+        }
+
+        private StorageItem PutFile(string srcFilePath, string dstFilePath, bool moveFile = false)
+        {
+            //Copy\move file to specified location
+            if (moveFile)
+                MoveFile(srcFilePath, dstFilePath);
+            else
+                File.Copy(srcFilePath, dstFilePath);
+
+            return new StorageItem()
+            {
+                Name = Path.GetFileName(dstFilePath),
+                Status = ItemStatus.Active,
+                ItemType = StorageItemType.File,
+                OriginalName = Path.GetFileName(srcFilePath),
+                Size = new FileInfo(dstFilePath).Length
+            };
+        }
+        private StorageItem PutFolder(string srcFolderPath, string dstFolderPath, bool moveFolder = false)
+        {
+            //Copy\move folder to specified location
+            if (moveFolder)
+                MoveDirectory(srcFolderPath, dstFolderPath);
+            else
+                FileHelper.DirectoryCopy(srcFolderPath, dstFolderPath, true, true);
+
+            return new StorageItem()
+            {
+                Name = Path.GetFileName(dstFolderPath),
+                Status = ItemStatus.Active,
+                ItemType = StorageItemType.Folder,
+                //OriginalName = srcFileName,
+                //Size = fileSize
+            };
+        }
+
+        private string GetStorageItemPath(long itemId)
+        {
+            string path = _fsUnitOfWork.FileStorageRepository.GetStorageItemPath(itemId);
+            //TODO throw exception if not found
+            if (path == null)
+                return null;
+
+            path = GetPathWithoutRootFolder(path);
+            return Path.Combine(_config.StoragePath, path);
         }
 
         private void MoveFile(string src, string dst)
@@ -242,7 +272,6 @@ namespace FileStorage.BL
                 File.Delete(src);
             }
         }
-
         private void MoveDirectory(string src, string dst)
         {
             if (ArePathsOnEqualDrives(src, dst))
@@ -287,6 +316,19 @@ namespace FileStorage.BL
             _fsUnitOfWork.Save();
 
             return newItem.StorageItemId;
+        }
+
+        private string EncryptStorageItemId(long itemId)
+        {
+            return Crypto.EncryptString(itemId.ToString(), _config.SecurityKey, SecurityVector);
+        }
+        private long DecryptStorageItemId(string encyptedItemId)
+        {
+            string strItemId = Crypto.DecryptString(encyptedItemId, _config.SecurityKey, SecurityVector);
+            if (!long.TryParse(strItemId, out long itemId))
+                throw new FileStorageException($"Value '{encyptedItemId}' is not file storage item ID");
+
+            return itemId;
         }
 
         private string GetPathWithoutRootFolder(string folderPath)

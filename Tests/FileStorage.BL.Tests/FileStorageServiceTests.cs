@@ -34,7 +34,7 @@ namespace FileStorage.BL.Tests
             using (var fsService = GetFileStorageService())
             {
                 for (int i = 0; i < 16; i++)
-                    Assert.Greater(fsService.Put(TestFilePath), 0);
+                    Assert.False(string.IsNullOrEmpty(fsService.Put(TestFilePath)));
 
                 Assert.Throws<FileStorageException>(() => fsService.Put(TestFilePath));
                 int count = GetFileCount(_fsConfig.StoragePath);
@@ -48,7 +48,7 @@ namespace FileStorage.BL.Tests
             using (var fsService = GetFileStorageService())
             {
                 for (int i = 0; i < 16; i++)
-                    Assert.Greater(fsService.Put(TestFolderPath), 0);
+                    Assert.False(string.IsNullOrEmpty(fsService.Put(TestFolderPath)));
 
                 Assert.Throws<FileStorageException>(() => fsService.Put(TestFolderPath));
                 int count = GetFolderCount(_fsConfig.StoragePath);
@@ -63,8 +63,8 @@ namespace FileStorage.BL.Tests
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    Assert.Greater(fsService.Put(TestFolderPath), 0); 
-                    Assert.Greater(fsService.Put(TestFilePath), 0);
+                    Assert.False(string.IsNullOrEmpty(fsService.Put(TestFolderPath)));
+                    Assert.False(string.IsNullOrEmpty(fsService.Put(TestFilePath)));
                 }
 
                 Assert.Throws<FileStorageException>(() => fsService.Put(TestFolderPath));
@@ -89,7 +89,7 @@ namespace FileStorage.BL.Tests
 
             using (var fsService = GetFileStorageService())
             {
-                long id = fsService.Put(srcPath);
+                string id = fsService.Put(srcPath);
                 string dstPath = fsService.GetStorageItemPath(id);
                 Assert.False(string.IsNullOrEmpty(dstPath));
                 Assert.True(Directory.Exists(dstPath));
@@ -113,7 +113,7 @@ namespace FileStorage.BL.Tests
 
             using (var fsService = GetFileStorageService())
             {
-                long id = fsService.Put(srcPath, true);
+                string id = fsService.Put(srcPath, true);
                 string dstPath = fsService.GetStorageItemPath(id);
                 Assert.False(string.IsNullOrEmpty(dstPath));
                 Assert.True(Directory.Exists(dstPath));
@@ -133,7 +133,7 @@ namespace FileStorage.BL.Tests
 
             using (var fsService = GetFileStorageService())
             {
-                long id = fsService.Put(srcFilePath);
+                string id = fsService.Put(srcFilePath);
                 string dstFilePath = fsService.GetStorageItemPath(id);
                 Assert.False(string.IsNullOrEmpty(dstFilePath));
                 Assert.True(File.Exists(dstFilePath));
@@ -149,7 +149,7 @@ namespace FileStorage.BL.Tests
 
             using (var fsService = GetFileStorageService())
             {
-                long id = fsService.Put(srcFilePath, true);
+                string id = fsService.Put(srcFilePath, true);
                 string dstFilePath = fsService.GetStorageItemPath(id);
                 Assert.False(string.IsNullOrEmpty(dstFilePath));
                 Assert.True(File.Exists(dstFilePath));
@@ -163,15 +163,15 @@ namespace FileStorage.BL.Tests
             using (Stream fs = new FileStream(TestFilePath, FileMode.Open))
             using (var fsService = GetFileStorageService())
             {
-                long id = fsService.Put(fs);
-                Assert.Greater(id, 0);
+                string id = fsService.Put(fs);
+                Assert.False(string.IsNullOrEmpty(id));
                 string dstFilePath = fsService.GetStorageItemPath(id);
                 Assert.False(string.IsNullOrEmpty(dstFilePath));
                 Assert.True(File.Exists(dstFilePath));
 
                 fs.Position = 0;
                 id = fsService.Put(fs, "File1.txt");
-                Assert.Greater(id, 0);
+                Assert.False(string.IsNullOrEmpty(id));
                 StorageFileInfo sfi = fsService.GetFile(id);
                 Assert.AreEqual("File1.txt", sfi.Name);
             }
@@ -182,9 +182,8 @@ namespace FileStorage.BL.Tests
         {
             using (var fsService = GetFileStorageService())
             {
-                string folderPath1;
-                long id = fsService.CreateStorageFolder(out folderPath1);
-                Assert.Greater(id, 0);
+                string id = fsService.CreateStorageFolder(out string folderPath1);
+                Assert.False(string.IsNullOrEmpty(id));
                 Assert.False(string.IsNullOrEmpty(folderPath1));
                 string folderPath2 = fsService.GetStorageItemPath(id);
                 Assert.False(string.IsNullOrEmpty(folderPath2));
@@ -198,8 +197,8 @@ namespace FileStorage.BL.Tests
         {
             using (var fsService = GetFileStorageService())
             {
-                long id = fsService.CreateStorageFolder(out string folderPath1);
-                Assert.Greater(id, 0);
+                string id = fsService.CreateStorageFolder(out string folderPath1);
+                Assert.False(string.IsNullOrEmpty(id));
 
                 //Copy file
                 fsService.PutToStorageFolder(id, TestFilePath, false);
@@ -233,8 +232,8 @@ namespace FileStorage.BL.Tests
 
             using (var fsService = GetFileStorageService())
             {
-                long id = fsService.CreateStorageFolder(out string folderPath1);
-                Assert.Greater(id, 0);
+                string id = fsService.CreateStorageFolder(out string folderPath1);
+                Assert.False(string.IsNullOrEmpty(id));
 
                 //Move file
                 string srcFilePath1 = Path.Combine(srcPath, "TextFile1.txt");
@@ -280,7 +279,7 @@ namespace FileStorage.BL.Tests
             using (var fsService = GetFileStorageService())
             {
                 //Create storage folder
-                long id = fsService.Put(TestFolderBase);
+                string id = fsService.Put(TestFolderBase);
                 string strorageFolderPath = fsService.GetStorageItemPath(id);
 
                 CollectionAssert.IsNotEmpty(Directory.GetFiles(strorageFolderPath));
@@ -300,7 +299,7 @@ namespace FileStorage.BL.Tests
         {
             using (var fsService = GetFileStorageService())
             {
-                long id = fsService.Put(TestFilePath);
+                string id = fsService.Put(TestFilePath);
                 string path = fsService.GetStorageItemPath(id);
                 Assert.False(string.IsNullOrEmpty(path));
                 Assert.True(path.StartsWith(_fsConfig.StoragePath));
@@ -319,7 +318,7 @@ namespace FileStorage.BL.Tests
         {
             using (var fsService = GetFileStorageService())
             {
-                long id = fsService.Put(TestFilePath);
+                string id = fsService.Put(TestFilePath);
                 StorageFileInfo fileInfo = fsService.GetFile(id);
                 Assert.NotNull(fileInfo);
                 Assert.False(string.IsNullOrEmpty(fileInfo.Name));
@@ -339,7 +338,7 @@ namespace FileStorage.BL.Tests
         {
             using (var fsService = GetFileStorageService())
             {
-                long id = fsService.Put(TestFilePath);
+                string id = fsService.Put(TestFilePath);
                 string path = fsService.GetStorageItemPath(id);
                 Assert.False(string.IsNullOrEmpty(path));
                 Assert.True(File.Exists(path));
