@@ -20,7 +20,7 @@ namespace FileStorage.WebService.Controllers
         }
 
         [HttpPost]
-        public long Upload(IFormFile file)
+        public string Upload(IFormFile file)
         {
             if (file == null)
                 return null;
