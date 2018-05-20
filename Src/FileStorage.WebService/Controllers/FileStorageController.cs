@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
+using Common.BL;
+using Common.Utils;
 using FileStorage.Core;
+using FileStorage.Core.Entities;
+using FileStorage.WebService.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,19 +20,25 @@ namespace FileStorage.WebService.Controllers
         }
 
         [HttpPost]
-        public string Upload(IFormFile file)
+        public UploadResponse Upload(IFormFile file)
         {
             if (file == null)
-                return null;
+                return new UploadResponse(null){Status = ServiceResponseStatus.Error, Message = "File was not passed"};
 
             Stream strm = file.OpenReadStream();
-            return _fileStorageService.Put(strm, file.FileName);
+            string token = _fileStorageService.Put(strm, file.FileName);
+            return new UploadResponse(token);
         }
 
         [HttpGet]
-        public void Download(string token)
+        public IActionResult Download(string token)
         {
-            
+            StorageFileInfo sfi = _fileStorageService.GetFile(token, true);
+            if (sfi == null)
+                return new NotFoundResult();
+
+            string ct = FileHelper.GetContentType(sfi.Name);
+            return File(sfi.FileStream, ct ?? "text/plain", sfi.Name);
         }
 
 
