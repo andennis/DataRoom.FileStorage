@@ -14,7 +14,7 @@ namespace FileStorage.BL
     public class FileStorageService : IFileStorageService
     {
         private const string RootFolderName = "FSRoot";
-        private const string SecurityVector = "jnY6!.?huDFz-wqV";
+        private const string SecurityVector = "jkV7!.?huHFo+qwS";
         private readonly IFileStorageConfig _config;
         private readonly IFileStorageUnitOfWork _fsUnitOfWork;
         
@@ -322,11 +322,11 @@ namespace FileStorage.BL
         {
             return Crypto.EncryptString(itemId.ToString(), _config.SecurityKey, SecurityVector);
         }
-        private long DecryptStorageItemId(string encyptedItemId)
+        private long DecryptStorageItemId(string encryptedItemId)
         {
-            string strItemId = Crypto.DecryptString(encyptedItemId, _config.SecurityKey, SecurityVector);
+            string strItemId = Crypto.DecryptString(encryptedItemId, _config.SecurityKey, SecurityVector);
             if (!long.TryParse(strItemId, out long itemId))
-                throw new FileStorageException($"Value '{encyptedItemId}' is not file storage item ID");
+                throw new FileStorageException($"Value '{encryptedItemId}' is not file storage item ID");
 
             return itemId;
         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Common.Repository;
+﻿using Common.Repository;
 using FileStorage.BL;
 using FileStorage.Core;
 using FileStorage.Repository.Core;
@@ -11,8 +7,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace FileStorage.WebService
 {
@@ -32,7 +26,13 @@ namespace FileStorage.WebService
             services.AddTransient<IFileStorageUnitOfWork, FileStorageUnitOfWork>();
             services.AddTransient<IFileStorageConfig, FileStorageConfig>();
             services.AddTransient<IFileStorageService, FileStorageService>();
+
             services.AddMvc();
+
+            services.Configure<IISOptions>(options =>
+            {
+                options.ForwardClientCertificate = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
