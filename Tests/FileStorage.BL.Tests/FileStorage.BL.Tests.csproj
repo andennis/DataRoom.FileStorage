@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DA.Common.Repository" Version="1.0.0.10" />
-    <PackageReference Include="DA.Common.Repository.EF" Version="1.0.0.10" />
+    <PackageReference Include="DA.Common.Repository" Version="1.0.0.11" />
+    <PackageReference Include="DA.Common.Repository.EF" Version="1.0.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
     <PackageReference Include="NUnit" Version="3.10.1" />

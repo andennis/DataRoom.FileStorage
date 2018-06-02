@@ -1,12 +1,13 @@
 ﻿using Common.Configuration;
 using FileStorage.Core;
+using Microsoft.Extensions.Configuration;
 
 namespace FileStorage.BL
 {
     public sealed class FileStorageConfig : AppConfigBase, IFileStorageConfig
     {
-        public FileStorageConfig()
-            : base("FileStorage")
+        public FileStorageConfig(IConfiguration config)
+            : base(config, "FileStorage")
         {
         }
 

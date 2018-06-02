@@ -19,7 +19,7 @@ namespace FileStorage.BL.Tests
 
         public FileStorageServiceTests()
         {
-            _fsConfig = new FileStorageConfig();
+            _fsConfig = FsBlTestHelper.GetAppConfig();
         }
 
         [SetUp]

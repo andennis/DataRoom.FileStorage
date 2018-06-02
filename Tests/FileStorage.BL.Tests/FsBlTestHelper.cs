@@ -2,17 +2,25 @@
 using FileStorage.Core;
 using FileStorage.Repository.Core;
 using FileStorage.Repository.EF;
+using Microsoft.Extensions.Configuration;
 
 namespace FileStorage.BL.Tests
 {
     public static class FsBlTestHelper
     {
+        public static FileStorageConfig GetAppConfig()
+        {
+            var configBuilder = new ConfigurationBuilder();
+            IConfiguration config = configBuilder.AddJsonFile("appsettings.json", true).Build();
+            return new FileStorageConfig(config);
+        }
+
         public static void ClearFileStorage(IFileStorageConfig fsConfig)
         {
             ClearFileStorageFolder(fsConfig);
             ClearFileStorageDb(fsConfig);
         }
-
+        
         private static void ClearFileStorageFolder(IFileStorageConfig fsConfig)
         {
             if (!Directory.Exists(fsConfig.StoragePath))
