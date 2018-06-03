@@ -23,7 +23,7 @@ namespace FileStorage.WebService.Controllers
         public UploadResponse Upload(IFormFile file)
         {
             if (file == null)
-                return new UploadResponse(null){Status = ServiceResponseStatus.Error, Message = "File was not passed"};
+                return new UploadResponse(){Status = ServiceResponseStatus.Error, Message = "File was not passed"};
 
             Stream strm = file.OpenReadStream();
             string token = _fileStorageService.Put(strm, file.FileName);

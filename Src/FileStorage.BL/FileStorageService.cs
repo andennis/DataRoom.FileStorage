@@ -303,7 +303,7 @@ namespace FileStorage.BL
                 Directory.CreateDirectory(dstFolderPath);
 
             //Generate file\folder name as GUID
-            string fileName = Guid.NewGuid().ToString();
+            string fileName = Guid.NewGuid().ToString("N");
             return Path.Combine(dstFolderPath, fileName);
         }
         private long CreateStorageItem(FolderItem parentFolder, StorageItem newItem)
