@@ -17,7 +17,7 @@
     <ModelCollation>1049,CI</ModelCollation>
     <DefaultFileStructure>BySchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetLanguage>CS</TargetLanguage>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SqlServerVerification>False</SqlServerVerification>
@@ -75,8 +75,6 @@
     <Build Include="Stored Procedures\fs.GetFolderPath.sql" />
     <Build Include="Stored Procedures\fs.GetStorageItemPath.sql" />
     <Build Include="Security\fs.sql" />
-    <Build Include="Scripts\GenerateTestData.sql" />
-    <Build Include="Scripts\DbSchemeScript.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FileStorage.DB.test.publish.xml" />
